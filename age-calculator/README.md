@@ -82,6 +82,10 @@ Contains the visual styling for the application, including:
 - Result presentation
 - Responsive behavior
 
+### Preview
+
+![preview](./preview.png)
+
 ## 🧮 How It Works
 
 The user enters their birth date using the following format:
