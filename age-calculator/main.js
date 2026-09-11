@@ -64,14 +64,22 @@ function onDateChange(event) {
 
   const isValidDate = validDate(value);
 
+  const associaedLabels = inputDate.labels;
+
+  const label = associaedLabels[0];
+
   if (!isValidDate) {
     inputDate.dataset.invalid = "true";
+    label.dataset.invalid = "true";
     inputInvalidMessage.innerText = "Invalid format!";
     submitButton.disabled = true;
+    submitButton.ariaInvalid = "true";
   } else {
     inputDate.dataset.invalid = "false";
+    label.dataset.invalid = "false";
     inputInvalidMessage.innerText = "";
     submitButton.disabled = false;
+    submitButton.ariaInvalid = "false";
   }
 }
 
@@ -90,13 +98,18 @@ form.addEventListener("submit", (event) => {
 function calculateDate(date) {
   const isValidDate = validDate(date);
 
+  const associatedLabels = inputDate.labels;
+  const label = associatedLabels[0];
+
   if (!isValidDate) {
     inputDate.dataset.invalid = "true";
+    label.dataset.invalid = "true";
     inputInvalidMessage.innerText = "Invalid format!";
     return;
   }
 
   inputDate.dataset.invalid = "false";
+  label.dataset.invalid = "false";
   inputInvalidMessage.innerText = "";
 
   const splitedValues = date.split("/");

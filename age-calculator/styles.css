@@ -1,3 +1,115 @@
-input[data-invalid="true"] {
-  border-color: red;
+@import url("https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&family=Valley+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100%;
+  height: 100vh;
+  font-family: "Google Sans", sans-serif;
+  font-optical-sizing: auto;
+  background-color: #16215b;
+  color: #e0eaf8;
+}
+
+.date-calculator {
+  margin: 0 auto;
+  padding: 2rem;
+  width: 100%;
+  max-width: 678px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  & > .date-calculator__title {
+    font-size: xx-large;
+    margin-bottom: 0.75rem;
+  }
+
+  & > .date-calculator__result {
+    font-size: large;
+    margin-top: 0.75rem;
+  }
+}
+
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  & > .form__label {
+    font-size: small;
+
+    &[data-invalid="true"] {
+      color: #f25929;
+    }
+  }
+
+  & > .form__input {
+    background-color: #28336d;
+    border: 1px solid #787ca9;
+    color: #e0eaf8;
+  }
+
+  & > .form__input__invalid {
+    font-size: small;
+    color: #f25929;
+  }
+
+  & > .form__submit {
+    background-color: #0373ff;
+    color: #e0eaf8;
+  }
+}
+
+.input {
+  width: 100%;
+  height: 2rem;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+
+  &::placeholder {
+    color: #e0eaf8;
+    opacity: 0.5;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #0373ff;
+    outline-offset: 4px;
+  }
+
+  &[data-invalid="true"] {
+    border-color: #f25929;
+  }
+}
+
+.submit {
+  width: 100%;
+  height: 2rem;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  border: none;
+  cursor: pointer;
+  transition: ease-in-out 0.2s;
+
+  &[aria-invalid="false"]:hover {
+    background-color: #0834ad;
+  }
+
+  &[aria-invalid="true"] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.result {
+  & > p {
+    color: #30d1ff;
+  }
 }
