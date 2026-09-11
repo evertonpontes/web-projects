@@ -1,0 +1,3 @@
+input[data-invalid="true"] {
+  border-color: red;
+}

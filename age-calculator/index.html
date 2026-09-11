@@ -5,24 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Age Calculator</title>
     <link rel="stylesheet" href="styles.css" />
+    <script
+      src="https://cdn.jsdelivr.net/npm/luxon@3.7.2/build/global/luxon.min.js"
+      integrity="sha256-UWxf6lyCvfH7XEcrmq/cqc2m3IBrLBLOnWLC4Pw0gQQ="
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
     <div class="date-calculator">
       <h1 class="date-calculator__title">Age Calculator</h1>
-      <form class="form form--simple">
+      <form class="form form--simple" id="form">
         <label class="label form__label" for="date-inpt"
           >Enter your birth date</label
         >
         <input
           class="input input--date form__input"
           id="date-inpt"
+          name="birth-date"
           placeholder="dd/mm/yyyy"
           type="text"
+          data-invalid="false"
         />
+        <p class="form__input__invalid" id="inpt-invalid-message"></p>
 
         <input
-          class="submit form__submit form__submit--disabled"
+          class="submit form__submit"
           type="submit"
+          id="submit-btn"
           value="Calculate"
         />
       </form>
