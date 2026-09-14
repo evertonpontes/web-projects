@@ -1,0 +1,145 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
+:root {
+  --background-color: #ffffff;
+  --foreground-color: #070b0e;
+  --primary-color: #2341ff;
+  --primary-foreground-color: #ebecff;
+  --error-color: #f44336;
+  --error-foreground-color: #feeceb;
+  --muted-color: #eff2f3;
+  --muted-foreground: #3b4c55;
+  --border-color: #455a69;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+
+  width: 100%;
+  height: 100vh;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  background-color: var(--background-color);
+  color: var(--foreground-color);
+}
+
+.container {
+  padding: 1rem 2rem;
+
+  width: 100%;
+  max-width: 860px;
+
+  border: 2px dashed var(--border-color);
+  border-radius: 0.5rem;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2rem;
+}
+
+.container__form {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 1rem;
+
+  & > .form__field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+.form__field > .field__input {
+  padding: 0.25rem 0.75rem;
+
+  width: 100%;
+  height: 2rem;
+
+  border: 1px solid var(--border-color);
+  border-radius: 0.25rem;
+
+  &:focus-visible {
+    outline-color: var(--primary-color);
+  }
+}
+
+.form__field > .field__input--password {
+  padding: 0;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  & > input[type="password"] {
+    padding: 0.25rem 0.75rem;
+
+    width: 100%;
+    height: 100%;
+
+    border: none;
+
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
+  & > .field__icon {
+    padding: 0.5rem;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 2rem;
+    height: 2rem;
+
+    aspect-ratio: 1/1;
+    background-color: transparent;
+
+    border: none;
+
+    cursor: pointer;
+  }
+
+  &:focus-within {
+    border: none;
+    outline: 2px solid var(--primary-color);
+    outline-offset: -2px;
+  }
+}
+
+.container__form > .form__submit {
+  padding: 0.25rem 0.75rem;
+
+  width: 50%;
+  height: 2rem;
+
+  border: none;
+  border-radius: 0.25rem;
+
+  background-color: var(--primary-color);
+  color: var(--primary-foreground-color);
+
+  cursor: pointer;
+
+  transition: ease-in-out 0.2s;
+
+  &:hover {
+    background-color: #2031a0;
+  }
+}
