@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Accessible Form UI</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="card">
+      <section class="section-form">
+        <form action="#" method="post" novalidate>
+          <!--Full Name Field-->
+          <div class="field">
+            <label for="fullName">Full Name</label>
+            <input
+              type="text"
+              id="fullName"
+              name="fullName"
+              aria-required="true"
+              placeholder="What should we call you?"
+              class="text-field"
+            />
+          </div>
+
+          <!--Email Field (Error State)-->
+          <div class="field">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              aria-required="true"
+              value="john@doe.com"
+              aria-invalid="true"
+              aria-describedby="email-error"
+              class="text-field"
+            />
+            <p id="email-error" class="error-message" role="alert">
+              Email is already taken
+            </p>
+          </div>
+
+          <!--Password Field-->
+          <div class="field field-password">
+            <label for="password">Enter Password</label>
+            <div class="password-content">
+              <input
+                type="password"
+                id="password"
+                name="password"
+                aria-required="true"
+                placeholder="••••••••"
+                class="text-field password"
+              />
+              <button
+                type="button"
+                aria-label="Toggle password visibility"
+                class="password-toggle"
+              >
+                <!-- Eye SVG Icon -->
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!--Confirm Password Field-->
+          <div class="field field-password">
+            <label for="confirmPassword">Confirm Password</label>
+            <div class="password-content">
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                aria-required="true"
+                placeholder="••••••••"
+                class="text-field password"
+              />
+              <button
+                type="button"
+                aria-label="Toggle confirm password visibility"
+                class="password-toggle"
+              >
+                <!-- Eye SVG Icon -->
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!--Submit Button-->
+          <button type="submit" class="submit-button">Update Profile</button>
+        </form>
+      </section>
+
+      <aside class="details">
+        <!--Donut Chart Area-->
+        <div class="chart-area">
+          <div class="chart-content">
+            <!-- SVG Donut Chart -->
+            <svg viewBox="0 0 120 120">
+              <!-- Background Circle -->
+              <circle
+                cx="60"
+                cy="60"
+                r="54"
+                fill="none"
+                stroke="#e5e7eb"
+                stroke-width="8"
+              ></circle>
+              <!-- Progress Circle (65% of 339.29 circumference = 220.5) -->
+              <circle
+                cx="60"
+                cy="60"
+                r="54"
+                fill="none"
+                stroke="#1f2937"
+                stroke-width="8"
+                stroke-dasharray="339.29"
+                stroke-dashoffset="118.75"
+                class="transition-all duration-1000 ease-out"
+              ></circle>
+            </svg>
+            <!--Percentage Text-->
+            <span
+              class="chart-text"
+              aria-label="Profile completeness is at 65 percent"
+              >65%</span
+            >
+          </div>
+          <h2>Profile Completeness</h2>
+        </div>
+
+        <!--Checklist Area-->
+        <div class="checklist-area">
+          <ul class="checklist" aria-label="Profile completeness checklist">
+            <li class="checklist-item">Create Account</li>
+
+            <li class="checklist-item">Update Roadmap Progress</li>
+
+            <li class="checklist-item">Setup Public Profile</li>
+
+            <li class="checklist-item">Complete Your First Project</li>
+
+            <li class="checklist-item">Invite Your Friends</li>
+          </ul>
+        </div>
+      </aside>
+    </main>
+  </body>
+</html>
