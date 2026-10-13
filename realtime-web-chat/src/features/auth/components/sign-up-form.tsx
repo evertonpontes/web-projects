@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/input-group";
 import { EyeOffIcon, EyeIcon, Loader2Icon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export const SignUpForm = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -189,6 +190,12 @@ export const SignUpForm = () => {
                   Continue With GitGub
                 </Button>
               </Field>
+
+              <FieldSet>
+                <FieldDescription>
+                  Already have an account? <Link href={"/login"}>Sign in</Link>
+                </FieldDescription>
+              </FieldSet>
             </FieldGroup>
           </form>
         </FieldGroup>
