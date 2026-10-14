@@ -8,6 +8,7 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 import { redirect } from "next/navigation";
+import { Sidebar, SidebarContainer } from "./sidebar";
 
 const ChatPanel = async () => {
   const queryClient = new QueryClient({
@@ -30,11 +31,16 @@ const ChatPanel = async () => {
   }
 
   return (
-    <div>
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        <UserButton />
-      </HydrationBoundary>
-    </div>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <SidebarContainer>
+        <Sidebar />
+        <main className="hidden flex-1 flex-col md:flex">
+          <div className="flex h-10 w-full items-center justify-end">
+            <UserButton />
+          </div>
+        </main>
+      </SidebarContainer>
+    </HydrationBoundary>
   );
 };
 
