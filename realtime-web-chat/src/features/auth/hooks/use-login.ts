@@ -26,7 +26,7 @@ export function useLogin() {
 
         toast.success("User signed in successfully!");
 
-        router.push("/dashboard");
+        router.push("/chat");
       },
       onError: async ({ error }) => {
         toast.error(error.serverError || "An error occurred while signing in.");

@@ -27,10 +27,12 @@ export function useSignUp() {
 
         toast.success("Account created successfully!");
 
-        router.push("/dashboard");
+        router.push("/chat");
       },
       onError: async ({ error }) => {
-        toast.error(error.serverError || "An error occurred while creating the account.");
+        toast.error(
+          error.serverError || "An error occurred while creating the account.",
+        );
       },
     },
   });
