@@ -1,7 +1,7 @@
 import z from "zod";
 
 export const createContactSchema = z.object({
-  contactId: z.string().min(1, "Contact is required!"),
+  email: z.email().min(1, "Email is required!"),
   nickname: z.string(),
 });
 

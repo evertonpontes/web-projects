@@ -15,7 +15,9 @@ app.prepare().then(() => {
   const io = new Server(httpServer);
 
   io.on("connection", (socket) => {
-    console.log("Connected: ", socket.id);
+    socket.on("new chat", (chat) => {
+      console.log(chat);
+    });
 
     socket.on("disconnected", () => {
       console.log("Disconnected: ", socket.id);
