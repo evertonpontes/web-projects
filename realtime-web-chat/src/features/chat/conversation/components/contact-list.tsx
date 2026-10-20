@@ -42,16 +42,18 @@ export const ContactList = ({
   const [selectedContacts, setSelectedContacts] = useState<TContact[]>([]);
 
   const selectedContactIds = useMemo(() => {
-    return selectedContacts.map((contact) => contact.userId);
+    return selectedContacts.map((contact) => contact.contactId);
   }, [selectedContacts]);
 
   const handleSelectContacts = (member: TContact) => {
     if (type === "PRIVATE") {
       callback?.(member);
     } else {
-      if (selectedContactIds.includes(member.userId)) {
+      if (selectedContactIds.includes(member.contactId)) {
         setSelectedContacts((prev) => {
-          const newSelection = prev.filter(({ id }) => id !== member.userId);
+          const newSelection = prev.filter(
+            ({ contactId }) => contactId !== member.contactId,
+          );
           callback?.(newSelection);
 
           return newSelection;
@@ -88,6 +90,7 @@ export const ContactList = ({
           ) : (
             contacts.map((contact) => (
               <button
+                type={type === "PRIVATE" ? "submit" : "button"}
                 key={contact.id}
                 className="hover:bg-muted flex w-full items-center gap-4 rounded-md p-2 transition-colors duration-150"
                 onClick={() => {
@@ -113,7 +116,7 @@ export const ContactList = ({
                   </p>
                 </div>
 
-                {selectedContactIds.includes(contact.userId) && (
+                {selectedContactIds.includes(contact.contactId) && (
                   <CheckIcon className="ml-auto" />
                 )}
               </button>

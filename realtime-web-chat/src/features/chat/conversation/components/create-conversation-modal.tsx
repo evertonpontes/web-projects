@@ -16,18 +16,30 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "@/components/ui/input-group";
-import { ChangeEvent, useMemo, useState } from "react";
+import { ChangeEvent, useEffect, useMemo, useState } from "react";
+
+type User = {
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+  email: string;
+  emailVerified: boolean;
+  name: string;
+  image?: string | null | undefined;
+};
 
 interface CreateConversationModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   type?: ConversationType;
+  user: User;
 }
 
 export const CreateConversationModal = ({
   open,
   onOpenChange,
   type = "PRIVATE",
+  user: userProps,
 }: CreateConversationModalProps) => {
   const [searchContact, setSearchContact] = useState<string>("");
 
@@ -38,7 +50,7 @@ export const CreateConversationModal = ({
 
   const { data: user, isPending: isPendingUser } = useGetCurrent();
 
-  const { data: contacts } = useGetContact(user?.id || "");
+  const { data: contacts } = useGetContact(user ? user.id : userProps.id);
 
   const handleSearchContactChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -80,6 +92,17 @@ export const CreateConversationModal = ({
       membersIds: [member.userId],
     });
   };
+
+  const handleNewGroup = (members: TContact[]) => {
+    form.setValue(
+      "membersIds",
+      members.map((member) => member.contactId),
+    );
+  };
+
+  useEffect(() => {
+    form.setValue("type", type);
+  }, [form, type]);
 
   if (!user && !isPendingUser) {
     return null;
@@ -132,7 +155,9 @@ export const CreateConversationModal = ({
               type={type}
               contacts={filteredContacts}
               callback={(members) =>
-                handleNewChat(Array.isArray(members) ? members[0] : members)
+                type === "PRIVATE"
+                  ? handleNewChat(Array.isArray(members) ? members[0] : members)
+                  : handleNewGroup(Array.isArray(members) ? members : [members])
               }
             />
           </div>

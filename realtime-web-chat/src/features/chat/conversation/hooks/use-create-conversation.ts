@@ -23,7 +23,7 @@ export const useCreateConversation = ({
 
   const router = useRouter();
 
-  return useHookFormAction(
+  const { resetFormAndAction, ...props } = useHookFormAction(
     createConversationAction,
     zodResolver(createConversationSchema),
     {
@@ -48,6 +48,8 @@ export const useCreateConversation = ({
 
           socket.emit("new chat", data);
 
+          resetFormAndAction();
+
           onOpenChange?.(false);
         },
         onError: ({ error }) => {
@@ -56,9 +58,13 @@ export const useCreateConversation = ({
               "An error occurred while adding new conversation",
           );
 
+          resetFormAndAction();
+
           onOpenChange?.(false);
         },
       },
     },
   );
+
+  return props;
 };

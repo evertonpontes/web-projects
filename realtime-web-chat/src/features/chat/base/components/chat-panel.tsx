@@ -9,6 +9,8 @@ import {
 } from "@tanstack/react-query";
 import { redirect } from "next/navigation";
 import { Sidebar, SidebarContainer } from "./sidebar";
+import { getContacts } from "../../contact";
+import { getConversations } from "../../conversation";
 
 const ChatPanel = async () => {
   const queryClient = new QueryClient({
@@ -26,6 +28,17 @@ const ChatPanel = async () => {
     })
     .catch(null);
 
+  await Promise.all([
+    queryClient.query({
+      queryKey: ["contacts", user?.id],
+      queryFn: getContacts,
+    }),
+    queryClient.query({
+      queryKey: ["conversations", user?.id],
+      queryFn: getConversations,
+    }),
+  ]);
+
   if (!user) {
     redirect("/login");
   }
@@ -33,7 +46,7 @@ const ChatPanel = async () => {
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <SidebarContainer>
-        <Sidebar />
+        <Sidebar user={user} />
         <main className="hidden flex-1 flex-col md:flex">
           <div className="flex h-10 w-full items-center justify-end">
             <UserButton />
