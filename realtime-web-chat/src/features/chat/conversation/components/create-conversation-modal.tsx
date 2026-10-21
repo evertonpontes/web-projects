@@ -39,7 +39,7 @@ export const CreateConversationModal = ({
   open,
   onOpenChange,
   type = "PRIVATE",
-  user: userProps,
+  user,
 }: CreateConversationModalProps) => {
   const [searchContact, setSearchContact] = useState<string>("");
 
@@ -48,9 +48,7 @@ export const CreateConversationModal = ({
     type,
   });
 
-  const { data: user, isPending: isPendingUser } = useGetCurrent();
-
-  const { data: contacts } = useGetContact(user ? user.id : userProps.id);
+  const { data: contacts } = useGetContact(user.id);
 
   const handleSearchContactChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -103,10 +101,6 @@ export const CreateConversationModal = ({
   useEffect(() => {
     form.setValue("type", type);
   }, [form, type]);
-
-  if (!user && !isPendingUser) {
-    return null;
-  }
 
   return (
     <Modal

@@ -82,7 +82,7 @@ export const ContactList = ({
                 No contacts yet
               </h2>
 
-              <p className="text-muted-foreground text-sm leading-relaxed font-normal tracking-tight">
+              <p className="text-muted-foreground text-center text-sm leading-relaxed font-normal tracking-tight">
                 You haven&apos;t add any contact yet. <br /> Get started by
                 adding new contacts to your list.
               </p>

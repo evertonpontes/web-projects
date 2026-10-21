@@ -19,8 +19,6 @@ export const useCreateConversation = ({
   onOpenChange,
   type,
 }: UseCreateConversationProps) => {
-  const queryClient = useQueryClient();
-
   const router = useRouter();
 
   const { resetFormAndAction, ...props } = useHookFormAction(
@@ -37,16 +35,12 @@ export const useCreateConversation = ({
         },
       },
       actionProps: {
-        onSuccess: async ({ data }) => {
-          await queryClient.invalidateQueries({
-            queryKey: ["conversations", data.createdById],
-          });
+        onSuccess: ({ data }) => {
+          socket.emit("new chat", data);
 
           toast.success(`Conversation ${data.title} added successfully!`);
 
           router.refresh();
-
-          socket.emit("new chat", data);
 
           resetFormAndAction();
 

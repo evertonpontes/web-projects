@@ -11,6 +11,7 @@ import { redirect } from "next/navigation";
 import { Sidebar, SidebarContainer } from "./sidebar";
 import { getContacts } from "../../contact";
 import { getConversations } from "../../conversation";
+import { ConversationChat } from "./conversation-chat";
 
 const ChatPanel = async () => {
   const queryClient = new QueryClient({
@@ -51,6 +52,7 @@ const ChatPanel = async () => {
           <div className="flex h-10 w-full items-center justify-end">
             <UserButton />
           </div>
+          <ConversationChat user={user} />
         </main>
       </SidebarContainer>
     </HydrationBoundary>
