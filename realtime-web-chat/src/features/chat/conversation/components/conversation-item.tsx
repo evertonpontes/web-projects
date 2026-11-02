@@ -9,7 +9,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Conversation } from "@/generated/prisma/client";
+import {
+  Conversation,
+  ConversationMember,
+  User,
+} from "@/generated/prisma/client";
+import { useGetSelectedConversationDetails } from "@/hooks/use-select-conversation";
 import { EllipsisIcon, UsersIcon } from "lucide-react";
 
 const usernameAbreviation = (name: string) => {
@@ -32,13 +37,29 @@ const usernameAbreviation = (name: string) => {
   return nameAbreviation;
 };
 
+type ConversationDetails = {
+  conversationMembers: ({ user: User } & ConversationMember)[];
+} & Conversation;
+
 export const ConversationItem = ({
   conversation,
+  user,
 }: {
-  conversation: Conversation;
+  conversation: ConversationDetails;
+  user: User;
 }) => {
+  const { conversationId, setConversationId } =
+    useGetSelectedConversationDetails();
+
   return (
-    <div className="bg-background hover:bg-muted/50 border-border group/item relative flex flex-1 cursor-pointer items-center gap-4 border-b p-4">
+    <div
+      className="bg-background hover:bg-muted/50 border-border group/item relative flex flex-1 cursor-pointer items-center gap-4 border-b p-4"
+      onClick={() => {
+        if (conversationId !== conversation.id) {
+          setConversationId(conversation.id);
+        }
+      }}
+    >
       <Avatar>
         <AvatarImage
           src={conversation.avatarUrl || ""}
@@ -55,7 +76,11 @@ export const ConversationItem = ({
 
       <div className="flex flex-col gap-2">
         <span className="text-foreground text-sm font-semibold">
-          {conversation.title}
+          {conversation.type === "GROUP"
+            ? conversation.title
+            : conversation.conversationMembers.filter(
+                (member) => member.userId !== user.id,
+              )[0].user.name}
         </span>
         {/*Last message */}
       </div>

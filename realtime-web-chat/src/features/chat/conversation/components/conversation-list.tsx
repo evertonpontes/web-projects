@@ -17,7 +17,7 @@ type User = {
   email: string;
   emailVerified: boolean;
   name: string;
-  image?: string | null | undefined;
+  image: string | null;
 };
 
 interface ConversationListProps {
@@ -36,24 +36,40 @@ export const ConversationList = ({ user }: ConversationListProps) => {
   const { data: conversations } = useGetConversations(user.id);
 
   useEffect(() => {
-    socket.on("connect", () => {
-      console.log("connected");
-    });
+    // (Re)join the personal room on every connection, including reconnects
+    const onConnect = () => {
+      socket.emit("join", user.id);
+    };
 
-    socket.on("new chat", () => {
+    const onNewChat = () => {
       queryClient.invalidateQueries({ queryKey: ["conversations", user.id] });
-    });
+    };
 
+    if (socket.connected) onConnect();
+
+    socket.on("connect", onConnect);
+    socket.on("new chat", onNewChat);
+
+    // Only remove this component's listeners. Never disconnect the shared
+    // socket here: Strict Mode runs this cleanup on mount, and a manually
+    // disconnected socket does not reconnect (emits would be buffered forever).
     return () => {
-      socket.disconnect();
+      socket.off("connect", onConnect);
+      socket.off("new chat", onNewChat);
     };
   }, [queryClient, user.id]);
+
+  console.log(conversations);
 
   return (
     <ScrollArea className="flex h-max w-full flex-col overflow-y-auto">
       {conversations && conversations.length > 0 ? (
         conversations?.map((conversation, index) => (
-          <ConversationItem key={index} conversation={conversation} />
+          <ConversationItem
+            key={index}
+            conversation={conversation}
+            user={user}
+          />
         ))
       ) : (
         <div className="flex h-full w-full flex-1 flex-col items-center justify-center gap-4 p-4">

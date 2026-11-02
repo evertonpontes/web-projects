@@ -26,6 +26,13 @@ export const getConversations = async () => {
     orderBy: {
       createdAt: "desc",
     },
+    include: {
+      conversationMembers: {
+        include: {
+          user: true,
+        },
+      },
+    },
   });
 
   return conversations;

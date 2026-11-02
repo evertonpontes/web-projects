@@ -26,7 +26,7 @@ type User = {
   email: string;
   emailVerified: boolean;
   name: string;
-  image?: string | null | undefined;
+  image: string | null;
 };
 
 interface SidebarProps {

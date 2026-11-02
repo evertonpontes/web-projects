@@ -47,7 +47,7 @@ const ChatPanel = async () => {
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <SidebarContainer>
-        <Sidebar user={user} />
+        <Sidebar user={{ ...user, image: user.image || null }} />
         <main className="hidden flex-1 flex-col md:flex">
           <div className="flex h-10 w-full items-center justify-end">
             <UserButton />

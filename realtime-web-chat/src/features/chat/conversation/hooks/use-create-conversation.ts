@@ -1,7 +1,6 @@
 "use client";
 
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
-import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { createConversationAction } from "../actions";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -35,8 +34,8 @@ export const useCreateConversation = ({
         },
       },
       actionProps: {
-        onSuccess: ({ data }) => {
-          socket.emit("new chat", data);
+        onSuccess: ({ data, input }) => {
+          socket.emit("new chat", { chat: data, memberIds: input.membersIds });
 
           toast.success(`Conversation ${data.title} added successfully!`);
 
@@ -47,6 +46,8 @@ export const useCreateConversation = ({
           onOpenChange?.(false);
         },
         onError: ({ error }) => {
+          console.error(error);
+
           toast.error(
             error.serverError ||
               "An error occurred while adding new conversation",

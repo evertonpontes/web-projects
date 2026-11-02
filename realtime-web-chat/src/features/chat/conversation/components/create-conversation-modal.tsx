@@ -11,11 +11,7 @@ import { ConversationType } from "@/generated/prisma/enums";
 import { useGetContact } from "../../contact";
 import { useGetCurrent } from "@/features/auth";
 import { ContactList, TContact } from "./contact-list";
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-} from "@/components/ui/input-group";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
 import { ChangeEvent, useEffect, useMemo, useState } from "react";
 
 type User = {
@@ -35,12 +31,7 @@ interface CreateConversationModalProps {
   user: User;
 }
 
-export const CreateConversationModal = ({
-  open,
-  onOpenChange,
-  type = "PRIVATE",
-  user,
-}: CreateConversationModalProps) => {
+export const CreateConversationModal = ({ open, onOpenChange, type = "PRIVATE", user }: CreateConversationModalProps) => {
   const [searchContact, setSearchContact] = useState<string>("");
 
   const { form, action, handleSubmitWithAction } = useCreateConversation({
@@ -63,31 +54,25 @@ export const CreateConversationModal = ({
 
     if (!searchContact) return contacts;
 
-    const filterByEmail = contacts.filter((contact) =>
-      contact.contact.email
-        .toLocaleLowerCase()
-        .includes(searchContact.trim().toLocaleLowerCase()),
-    );
+    const filterByEmail = contacts.filter((contact) => contact.contact.email.toLocaleLowerCase().includes(searchContact.trim().toLocaleLowerCase()));
 
-    const filterByNickname = contacts.filter(
-      (contact) =>
-        contact.nickname &&
-        contact.nickname
-          .toLocaleLowerCase()
-          .includes(searchContact.trim().toLocaleLowerCase()),
-    );
+    const filterByNickname = contacts.filter((contact) => contact.nickname && contact.nickname.toLocaleLowerCase().includes(searchContact.trim().toLocaleLowerCase()));
 
     const removeDuplicates = new Set([...filterByEmail, ...filterByNickname]);
 
     return [...removeDuplicates];
   }, [contacts, searchContact]);
 
-  const handleNewChat = (member: TContact) => {
-    form.setValue("title", member.nickname || member.contact.name);
+  const handleNewChat = (members: TContact[]) => {
+    form.setValue("title", `${user.name} & ${members[0].contact.name}`);
+
+    form.setValue(
+      "membersIds",
+      members.map((member) => member.contactId),
+    );
 
     action.execute({
       ...form.getValues(),
-      membersIds: [member.userId],
     });
   };
 
@@ -103,15 +88,7 @@ export const CreateConversationModal = ({
   }, [form, type]);
 
   return (
-    <Modal
-      open={open}
-      onOpenChange={onOpenChange}
-      title={type === "PRIVATE" ? "New chat" : "Create group"}
-      description={
-        type === "GROUP" &&
-        "Give your group a name and select the members you want to invite."
-      }
-    >
+    <Modal open={open} onOpenChange={onOpenChange} title={type === "PRIVATE" ? "New chat" : "Create group"} description={type === "GROUP" && "Give your group a name and select the members you want to invite."}>
       <form onSubmit={handleSubmitWithAction}>
         <FieldGroup>
           {type === "GROUP" && (
@@ -120,15 +97,8 @@ export const CreateConversationModal = ({
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <Input
-                    id="title"
-                    placeholder="Group name"
-                    {...field}
-                    aria-invalid={fieldState.invalid}
-                  />
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
+                  <Input id="title" placeholder="Group name" {...field} aria-invalid={fieldState.invalid} />
+                  {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                 </Field>
               )}
             />
@@ -139,30 +109,14 @@ export const CreateConversationModal = ({
               <InputGroupAddon align="inline-start">
                 <SearchIcon />
               </InputGroupAddon>
-              <InputGroupInput
-                placeholder="Search contacts..."
-                value={searchContact}
-                onChange={handleSearchContactChange}
-              />
+              <InputGroupInput placeholder="Search contacts..." value={searchContact} onChange={handleSearchContactChange} />
             </InputGroup>
-            <ContactList
-              type={type}
-              contacts={filteredContacts}
-              callback={(members) =>
-                type === "PRIVATE"
-                  ? handleNewChat(Array.isArray(members) ? members[0] : members)
-                  : handleNewGroup(Array.isArray(members) ? members : [members])
-              }
-            />
+            <ContactList type={type} contacts={filteredContacts} callback={(members) => (type === "PRIVATE" ? handleNewChat(Array.isArray(members) ? members : [members]) : handleNewGroup(Array.isArray(members) ? members : [members]))} />
           </div>
 
           {type === "GROUP" && (
             <Field orientation="horizontal">
-              <Button
-                type="submit"
-                disabled={action.isPending}
-                className="ml-auto px-6"
-              >
+              <Button type="submit" disabled={action.isPending} className="ml-auto px-6">
                 {action.isPending ? (
                   <>
                     <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
