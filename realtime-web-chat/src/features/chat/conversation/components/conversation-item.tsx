@@ -52,37 +52,39 @@ export const ConversationItem = ({
     useGetSelectedConversationDetails();
 
   return (
-    <div
-      className="bg-background hover:bg-muted/50 border-border group/item relative flex flex-1 cursor-pointer items-center gap-4 border-b p-4"
-      onClick={() => {
-        if (conversationId !== conversation.id) {
-          setConversationId(conversation.id);
-        }
-      }}
-    >
-      <Avatar>
-        <AvatarImage
-          src={conversation.avatarUrl || ""}
-          alt={conversation.title || "conversation-image"}
-        />
-        <AvatarFallback>
-          {conversation.type === "PRIVATE" ? (
-            usernameAbreviation(conversation.title || "WN")
-          ) : (
-            <UsersIcon />
-          )}
-        </AvatarFallback>
-      </Avatar>
+    <div className="bg-background hover:bg-muted/50 border-border group/item relative flex flex-1 cursor-pointer items-center gap-4 border-b">
+      <div
+        className="flex w-full flex-1 items-center gap-4 p-4"
+        onClick={() => {
+          if (conversationId !== conversation.id) {
+            setConversationId(conversation.id);
+          }
+        }}
+      >
+        <Avatar>
+          <AvatarImage
+            src={conversation.avatarUrl || ""}
+            alt={conversation.title || "conversation-image"}
+          />
+          <AvatarFallback>
+            {conversation.type === "PRIVATE" ? (
+              usernameAbreviation(conversation.title || "WN")
+            ) : (
+              <UsersIcon />
+            )}
+          </AvatarFallback>
+        </Avatar>
 
-      <div className="flex flex-col gap-2">
-        <span className="text-foreground text-sm font-semibold">
-          {conversation.type === "GROUP"
-            ? conversation.title
-            : conversation.conversationMembers.filter(
-                (member) => member.userId !== user.id,
-              )[0].user.name}
-        </span>
-        {/*Last message */}
+        <div className="flex flex-col gap-2">
+          <span className="text-foreground text-sm font-semibold">
+            {conversation.type === "GROUP"
+              ? conversation.title
+              : conversation.conversationMembers.filter(
+                  (member) => member.userId !== user.id,
+                )[0].user.name}
+          </span>
+          {/*Last message */}
+        </div>
       </div>
 
       <DropdownMenu>

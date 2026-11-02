@@ -72,9 +72,22 @@ export const ConversationChat = ({ user }: ConversationChatProps) => {
                   )}
                 </AvatarFallback>
               </Avatar>
+              <div className="flex flex-col">
+                <span className="text-foreground text-sm font-semibold">
+                  {selectedConversation.type === "GROUP"
+                    ? selectedConversation.title
+                    : selectedConversation.conversationMembers.filter(
+                        (member) => member.userId !== user.id,
+                      )[0].user.name}
+                </span>
+                <span className="text-muted-foreground text-xs font-normal">
+                  {selectedConversation.type === "GROUP"
+                    ? `${selectedConversation.conversationMembers.length} members`
+                    : "Offline"}
+                </span>
+              </div>
             </div>
           </div>
-          {selectedConversation.title}
         </div>
       ) : (
         <div className="flex h-full w-full flex-1 flex-col items-center justify-center gap-4 p-4">
